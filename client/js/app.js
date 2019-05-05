@@ -38,7 +38,7 @@ class EventsManager {
         		center: 'title',
         		right: 'month,agendaWeek,basicDay'
         	},
-        	defaultDate: '2016-11-01',
+        	defaultDate: '2019-05-05',
         	navLinks: true,
         	editable: true,
         	eventLimit: true,
@@ -86,7 +86,7 @@ class EventsManager {
       }
       $.ajax({
         url: '../server/new_event.php',
-        dataType: "json",
+        dataType: 'json',
         cache: false,
         processData: false,
         contentType: false,
@@ -109,9 +109,6 @@ class EventsManager {
                 end: $('#end_date').val()+" "+$('#end_hour').val()
               })
             }
-
-
-
 
           }else {
             alert(data.msg)
@@ -196,14 +193,13 @@ class EventsManager {
 
 }
 
-
 $(function(){
   initForm();
   var e = new EventsManager();
   $('form').submit(function(event){
-    event.preventDefault()
-    e.anadirEvento()
-  })
+    event.preventDefault();
+    e.anadirEvento();
+  });
 });
 
 

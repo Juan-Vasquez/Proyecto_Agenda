@@ -14,14 +14,16 @@
 
 		$array = array();
 		while($row = mysqli_fetch_array($con)){
-			$array = array('email'=>$row['email'], 'password'=>$row['password']);
+			$array = array('idUsuarios'=>$row['idUsuarios'],'email'=>$row['email'], 'password'=>$row['password']);
 		}
 
 		
 		if(password_verify($pass, $array['password'])){
-			echo "Exito";	
+			session_start();
+			$_SESSION['idUsuarios'] = $array['idUsuarios'];
+			echo "OK";
 		}else{
-			echo "Error";
+			echo "El usuario o contraseña no coinsiden";
 		}
 		
 	}
