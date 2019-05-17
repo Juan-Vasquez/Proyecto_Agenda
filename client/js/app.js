@@ -17,6 +17,7 @@ class EventsManager {
           contentType: false,
           type: 'GET',
           success: (data) =>{
+            console.log(data.eventos)
             if (data.msg=="OK") {
               this.poblarCalendario(data.eventos)
             }else {
@@ -38,7 +39,7 @@ class EventsManager {
         		center: 'title',
         		right: 'month,agendaWeek,basicDay'
         	},
-        	defaultDate: '2019-05-05',
+        	defaultDate: '2016-11-01',
         	navLinks: true,
         	editable: true,
         	eventLimit: true,
@@ -86,7 +87,7 @@ class EventsManager {
       }
       $.ajax({
         url: '../server/new_event.php',
-        dataType: 'json',
+        dataType: "json",
         cache: false,
         processData: false,
         contentType: false,
@@ -109,6 +110,9 @@ class EventsManager {
                 end: $('#end_date').val()+" "+$('#end_hour').val()
               })
             }
+
+
+
 
           }else {
             alert(data.msg)
@@ -152,11 +156,11 @@ class EventsManager {
         let id = evento.id,
             start = moment(evento.start).format('YYYY-MM-DD HH:mm:ss'),
             end = moment(evento.end).format('YYYY-MM-DD HH:mm:ss'),
-            form_data = new FormData(),
             start_date,
             end_date,
             start_hour,
-            end_hour
+            end_hour,  
+            form_data = new FormData();
 
         start_date = start.substr(0,10)
         end_date = end.substr(0,10)
@@ -193,13 +197,14 @@ class EventsManager {
 
 }
 
+
 $(function(){
   initForm();
   var e = new EventsManager();
   $('form').submit(function(event){
-    event.preventDefault();
-    e.anadirEvento();
-  });
+    event.preventDefault()
+    e.anadirEvento()
+  })
 });
 
 

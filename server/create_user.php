@@ -38,6 +38,6 @@
 
 	}
 
-	$coneccion->close()
+	$coneccion->close();
 
 ?>

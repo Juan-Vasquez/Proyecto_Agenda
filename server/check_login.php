@@ -28,5 +28,6 @@
 		
 	}
 
+	$conexion->close();
 
 ?>

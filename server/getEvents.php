@@ -2,40 +2,48 @@
   
 	session_start();
 	$conexion = new mysqli('localhost', 'root', '1234', 'agenda');
-
+	
 	if($conexion->connect_error){
-		die('Error de conexion');
-	}else{
+		die('Error: '.$conexion->connect_error);
+	}
 
-		if(isset($_SESSION['idUsuarios'])){
-			$consulta = 'SELECT idEventos, titulo, fechaInicio, diaEntero, fechaFinalizacion, horaInicio, horaFinalizacion FROM eventos WHERE fk_usuarios='.$_SESSION['idUsuarios'].';';
+	if(isset($_SESSION['idUsuarios'])){
 
-			$result = mysqli_query($conexion, $consulta);
-				$json = array();
-			if(!$result){
-				$json['msg']="No hay Eventos cargados";
+		$sql = 'SELECT * FROM eventos WHERE eventos.fk_usuarios = '.$_SESSION['idUsuarios'].';';
+
+		$respuesta = $conexion->query($sql);
+
+		if(!$respuesta){
+			$res['msg'] = "Error PHP-004 en la comunicacion con el servidor";
+		}else{
+				
+			if($respuesta->num_rows <= 0){
+				$res['eventos'] = [];
 			}else{
 
-				while ($row = mysqli_fetch_array($result)) {
-					$json['eventos'] = array(
-																	'id'=>$row['idEventos'],
-																	'titulo'=>$row['titulo'],
-																	'fechaInicio'=>$row['fechaInicio'],
-																	'diaEntero'=>$row['diaEntero'],
-																	'fechaFinalizacion'=>$row['fechaFinalizacion'],
-																	'horaInicio'=>$row['horaInicio'],
-																	'horaFinalizacion'=>$row['horaFinalizacion']
-
-					);		
+				$json = array();
+				
+				while ($row = $respuesta->fetch_assoc()) {
+					$evento = array(
+					'id'=>$row['idEventos'],
+					'title'=>$row['titulo'],
+					'start'=>$row['fechaInicio'].' '.$row['horaInicio'],
+					'allDay'=>$row['diaEntero'],
+					'end'=>$row['fechaFinalizacion'].' '.$row['horaFinalizacion'] ,
+					);
+					array_push($json, $evento);
 				}
-				$json['msg'] = "OK";
-			}
-			
 
-			echo json_encode($json);
+				$res['eventos']=$json;
+				$res['msg'] = "OK";
+			}	
+				
 		}
+		
 
 	}
 
+	$conexion->close();
+	echo json_encode($res);
 
  ?>
