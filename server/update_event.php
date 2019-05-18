@@ -3,12 +3,6 @@
 	session_start();
 	$conexion = new mysqli('localhost', 'root', '1234', 'agenda');
 
-	$datos[] = array(
-								'fechaInicio'=>$_POST['start_date'],
-								'fechaFinalizacion'=>$_POST['end_date'],
-								'horaInicio'=>$_POST['start_hour'],
-								'horaFinalizacion'=>$_POST['end_hour']);
-
 	if($conexion->connect_error){
 		die('Error: '.$conexion->connect_error);
 	} 
