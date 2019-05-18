@@ -18,6 +18,7 @@
 		}else{
 				
 			if($respuesta->num_rows <= 0){
+				$res['msg'] = "OK";
 				$res['eventos'] = [];
 			}else{
 
@@ -26,6 +27,7 @@
 				while ($row = $respuesta->fetch_assoc()) {
 					$evento = array(
 					'id'=>$row['idEventos'],
+					'fk_usuarios'=>$row['fk_usuarios'],
 					'title'=>$row['titulo'],
 					'start'=>$row['fechaInicio'].' '.$row['horaInicio'],
 					'allDay'=>$row['diaEntero'],
